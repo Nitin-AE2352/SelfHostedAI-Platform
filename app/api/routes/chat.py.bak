@@ -1,0 +1,183 @@
+﻿import re
+
+from fastapi import APIRouter, HTTPException
+from requests import RequestException
+
+from app.schemas.chat import ChatRequest, ChatResponse
+from app.services.ollama_service import generate_answer
+from app.services.document_service import search_documents
+
+router = APIRouter()
+
+STOP_WORDS = {
+    "a", "an", "the", "is", "are", "was", "were",
+    "what", "when", "where", "which", "who", "how", "why",
+    "do", "does", "did", "in", "on", "at", "to", "for",
+    "of", "and", "or", "my", "me", "i", "you", "your",
+    "hai", "hain", "ka", "ki", "ke", "ko", "kya", "kab",
+    "kahan", "kaise", "mera", "meri", "mere", "batao",
+    "please", "tell", "about"
+}
+
+
+def get_terms(text: str) -> set[str]:
+    words = re.findall(r"[a-zA-Z0-9]+", text.lower())
+    return {
+        word for word in words
+        if len(word) > 1 and word not in STOP_WORDS
+    }
+
+
+def rerank_documents(question: str, matches: list) -> list:
+    """Combine cosine similarity, keyword relevance and deduplication."""
+    question_terms = get_terms(question)
+    ranked = []
+    seen_texts = set()
+
+    for position, item in enumerate(matches):
+        text = item.get("text", "").strip()
+
+        if not text:
+            continue
+
+        normalized = re.sub(r"\s+", " ", text.lower()).strip()
+
+        if normalized in seen_texts:
+            continue
+
+        seen_texts.add(normalized)
+
+        document_terms = get_terms(text)
+        overlap = question_terms & document_terms
+
+        coverage = (
+            len(overlap) / len(question_terms)
+            if question_terms else 0.0
+        )
+
+        distance = item.get("distance")
+        similarity = 0.0
+
+        if isinstance(distance, (int, float)):
+            similarity = max(0.0, min(1.0, 1.0 - float(distance)))
+
+        original_rank = 1.0 - position / max(len(matches), 1)
+
+        score = (
+            0.50 * similarity
+            + 0.35 * coverage
+            + 0.15 * original_rank
+        )
+
+        ranked.append((score, position, item))
+
+    ranked.sort(key=lambda row: (-row[0], row[1]))
+    return [item for _, _, item in ranked[:4]]
+
+
+@router.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+    try:
+        question = request.message.strip()
+
+        if not question:
+            raise HTTPException(
+                status_code=400,
+                detail="Please enter a question."
+            )
+
+        # Retrieve more candidates, then rerank them.
+        candidates = search_documents(query=question, top_k=12)
+        matches = rerank_documents(question, candidates)
+
+        if not matches:
+            return ChatResponse(
+                answer=(
+                    "Uploaded documents mein relevant information nahi mili. "
+                    "Question ko rephrase karein ya relevant document upload karein."
+                ),
+                model="local Ollama model",
+                source="No relevant document found",
+            )
+
+        context_parts = []
+        citations = []
+
+        for item in matches:
+            text = item.get("text", "").strip()
+            filename = item.get("filename", "Unknown document")
+            location = item.get("source_location", "Location unavailable")
+            chunk_index = item.get("chunk_index", "?")
+
+            if not text:
+                continue
+
+            context_parts.append(
+                f"[Source: {filename} | {location} | Chunk {chunk_index}]\n"
+                f"{text}"
+            )
+
+            citation = f"{filename} — {location}"
+            if citation not in citations:
+                citations.append(citation)
+
+        if not context_parts:
+            return ChatResponse(
+                answer="Relevant document text nahi mil paya.",
+                model="local Ollama model",
+                source="No usable document text",
+            )
+
+        context = "\n\n---\n\n".join(context_parts)
+
+        prompt = f"""
+You are a careful document question-answering assistant.
+
+Answer the user's question using the supplied document excerpts.
+
+Rules:
+- Answer in the same language as the user's question.
+- Use only facts supported by the excerpts for document-specific questions.
+- Never invent dates, amounts, names, policies or missing details.
+- If the excerpts do not contain the answer, explicitly say so.
+- Do not confuse a source citation with proof that the answer is correct.
+- Keep the answer concise and directly answer the question.
+
+DOCUMENT EXCERPTS:
+{context}
+
+USER QUESTION:
+{question}
+
+ANSWER:
+"""
+
+        answer = generate_answer(prompt).strip()
+
+        if not answer:
+            answer = (
+                "Reliable answer generate nahi hua. "
+                "Please question ko dobara try karein."
+            )
+
+        answer += "\n\nSources:\n" + "\n".join(
+            f"- {citation}" for citation in citations
+        )
+
+        return ChatResponse(
+            answer=answer,
+            model="local Ollama model",
+            source="; ".join(citations),
+        )
+
+    except HTTPException:
+        raise
+    except RequestException as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Ollama ya embedding service unavailable hai."
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc

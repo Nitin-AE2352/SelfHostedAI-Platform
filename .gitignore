@@ -1,0 +1,15 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+uploads/
+data/
+logs/
+.DS_Store
+project_audit.txt

@@ -1,0 +1,1116 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Private, local-first AI workspace for document search, RAG question answering, text generation and learning content.">
+  <meta name="color-scheme" content="dark">
+  <title>Self-Hosted AI Platform</title>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- Application logic -->
+  <script src="./js/app.js" defer></script>
+</head>
+
+<body>
+<div class="shell">
+
+  <!-- =====================================================
+       SIDEBAR NAVIGATION
+       ===================================================== -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+
+    <a class="brand" href="#overview" aria-label="Self-Hosted AI Platform home">
+      <span class="logo" aria-hidden="true">AI</span>
+      <span>
+        <b>Local AI</b>
+        <small>SELF-HOSTED PLATFORM</small>
+      </span>
+    </a>
+
+    <p class="nav-label">WORKSPACE</p>
+
+    <nav aria-label="Workspace sections">
+      <a class="nav-link active" href="#overview" aria-current="page">
+        <span aria-hidden="true">O</span>
+        <span>Overview</span>
+      </a>
+
+      <a class="nav-link" href="#knowledge">
+        <span aria-hidden="true">Q</span>
+        <span>Knowledge &amp; RAG</span>
+      </a>
+
+      <a class="nav-link" href="#text-generation">
+        <span aria-hidden="true">TQ</span>
+        <span>Text generation</span>
+      </a>
+
+      <a class="nav-link" href="#question-generation">
+        <span aria-hidden="true">QB</span>
+        <span>Question builder</span>
+      </a>
+
+      <a class="nav-link" href="#image-generation">
+        <span aria-hidden="true">I</span>
+        <span>Image studio</span>
+      </a>
+    </nav>
+
+    <div class="side-bottom">
+      <div class="privacy">
+        <i aria-hidden="true"></i>
+        <div>
+          <b>Local-first inference</b>
+          <p>Requests go to your configured backend.</p>
+        </div>
+      </div>
+
+      <small>Development workspace Â· v0.2</small>
+    </div>
+  </aside>
+
+  <!-- =====================================================
+       MAIN APPLICATION
+       ===================================================== -->
+  <main id="mainContent">
+
+    <!-- Top navigation -->
+    <header class="topbar">
+
+      <button
+        id="mobileMenuButton"
+        class="mobile-menu"
+        type="button"
+        aria-label="Toggle navigation"
+        aria-controls="sidebar"
+        aria-expanded="false"
+      >â˜°</button>
+
+      <div class="crumb">
+        Workspace
+        <span aria-hidden="true">/</span>
+        <b id="currentPageName">Overview</b>
+      </div>
+
+      <div class="top-actions">
+
+        <span
+          id="status"
+          class="status-pill checking"
+          role="status"
+          aria-live="polite"
+          title="Connection status of the FastAPI backend"
+        >
+          <i class="status-dot" aria-hidden="true"></i>
+          Checking backend…
+        </span>
+
+        <a
+          href="http://127.0.0.1:8000/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open FastAPI documentation in a new tab"
+        >API docs —</a>
+
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- =====================================================
+           OVERVIEW
+           ===================================================== -->
+      <section class="hero" id="overview" aria-labelledby="overviewTitle">
+
+        <div class="hero-copy">
+
+          <p class="eyebrow">PRIVATE AI WORKSPACE</p>
+
+          <h1 id="overviewTitle">
+            One workspace.<br>
+            <span>Multiple AI capabilities.</span>
+          </h1>
+
+          <p>
+            Chat with documents, search indexed knowledge, generate content,
+            prepare learning questions, and explore image workflows from one
+            local-first interface.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn primary" href="#knowledge">
+              Ask your documents 
+            </a>
+
+            <a class="btn ghost" href="#text-generation">
+              Generate content
+            </a>
+          </div>
+
+          <div class="hero-trust">
+            <span aria-hidden="true"></span>
+            Local backend connection
+            <span aria-hidden="true"></span>
+            Private deployment design
+          </div>
+
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit"></div>
+
+          <div class="core">
+            âœ¦
+            <b>LOCAL</b>
+            <small>MODEL CORE</small>
+          </div>
+
+          <span class="node n1">RAG</span>
+          <span class="node n2">LLM</span>
+          <span class="node n3">IMG</span>
+        </div>
+
+      </section>
+
+      <!-- =====================================================
+           FEATURE SUMMARY
+           ===================================================== -->
+      <section class="stats" aria-label="Platform capabilities">
+
+        <article>
+          <span class="stat-icon purple" aria-hidden="true">U</span>
+          <div>
+            <small>KNOWLEDGE BASE</small>
+            <b>Document RAG</b>
+            <p>Upload And retrieve </p>
+          </div>
+        </article>
+
+        <article>
+          <span class="stat-icon blue" aria-hidden="true">TQ</span>
+          <div>
+            <small>CONTENT TOOLS</small>
+            <b>Text generation</b>
+            <p>Language and format controls</p>
+            <em>API integration required</em>
+          </div>
+        </article>
+
+        <article>
+          <span class="stat-icon green" aria-hidden="true">QB</span>
+          <div>
+            <small>LEARNING TOOLS</small>
+            <b>Question builder</b>
+            <p>Questions and answer keys</p>
+            <em>Dedicated API integration</em>
+          </div>
+        </article>
+
+        <article>
+          <span class="stat-icon orange" aria-hidden="true">QI</span>
+          <div>
+            <small>CREATIVE TOOLS</small>
+            <b>Image studio</b>
+            <p>Images and illustrations</p>
+            <em class="pending">Backend pending</em>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- =====================================================
+           KNOWLEDGE BASE AND RAG
+           ===================================================== -->
+      <section class="section" id="knowledge" aria-labelledby="knowledgeTitle">
+
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">RETRIEVAL-AUGMENTED GENERATION</p>
+            <h2 id="knowledgeTitle">Knowledge &amp; RAG</h2>
+            <p>
+              Upload documents, index their content, search relevant passages,
+              and ask questions grounded in the retrieved information.
+            </p>
+          </div>
+
+          <small>01 / KNOWLEDGE</small>
+        </div>
+
+        <div class="columns">
+
+          <!-- -------------------------------------------------
+               DOCUMENT UPLOAD
+               ------------------------------------------------- -->
+          <article class="panel" id="documentLibraryPanel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Document library</h3>
+                <p>Upload files to extract text and create searchable chunks.</p>
+              </div>
+
+              <span class="panel-icon" aria-hidden="true">U</span>
+            </div>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+
+              <label
+                class="dropzone"
+                id="dropzone"
+                for="fileInput"
+              >
+                <span class="upload-icon" aria-hidden="true">U</span>
+
+                <b>Choose files to upload</b>
+
+                <span>or drag and drop files here</span>
+
+                <small>Maximum 10 files per upload</small>
+
+                <input
+                  id="fileInput"
+                  name="files"
+                  type="file"
+                  accept=".pdf,.docx,.pptx,.txt"
+                  multiple
+                  required
+                  aria-describedby="fileHelp selectedFiles"
+                >
+              </label>
+
+              <p class="tiny" id="fileHelp">
+                Supported formats: PDF, DOCX, PPTX and TXT, subject to
+                backend support and file-size limits.
+              </p>
+
+              <p
+                class="selected-files"
+                id="selectedFiles"
+                aria-live="polite"
+              >No files selected</p>
+
+              <button
+                class="btn primary full"
+                id="uploadButton"
+                type="submit"
+              >Upload and index documents</button>
+
+              <p
+                class="form-message"
+                id="uploadMessage"
+                role="status"
+                aria-live="polite"
+              ></p>
+
+            </form>
+
+            <div class="note">
+              â“˜ Files are sent to your FastAPI backend. Wait for indexing
+              to complete before asking questions about newly uploaded files.
+            </div>
+
+            <!-- Upload / indexing status -->
+            <div class="document-status" id="documentStatusPanel">
+
+              <div class="panel-subhead">
+                <b>Indexing status</b>
+                <span class="pill-muted" id="indexingStatus">Ready</span>
+              </div>
+
+              <p
+                class="tiny"
+                id="documentStatusMessage"
+                role="status"
+                aria-live="polite"
+              >
+                Upload a document to begin indexing.
+              </p>
+
+            </div>
+
+            <!-- Uploaded files shown by the frontend when supported -->
+            <div class="uploaded-files-section">
+
+              <div class="panel-subhead">
+                <b>Files in this session</b>
+                <span class="tiny" id="uploadedFileCount">0 files</span>
+              </div>
+
+              <div
+                class="uploaded-files"
+                id="uploadedDocuments"
+                aria-live="polite"
+              >
+                <p class="tiny">
+                  Uploaded file information will appear here when available.
+                </p>
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- -------------------------------------------------
+               RAG CHAT
+               ------------------------------------------------- -->
+          <article class="panel" id="ragChatPanel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Ask your documents</h3>
+                <p>Ask questions and review source details when returned by the API.</p>
+              </div>
+
+              <button
+                class="text-button"
+                id="clearButton"
+                type="button"
+              >Clear chat</button>
+            </div>
+
+            <!-- Suggested questions -->
+            <div class="suggestions" aria-label="Suggested questions">
+
+              <button
+                class="suggestion"
+                data-question="Summarize the key points in my uploaded documents."
+                type="button"
+              >Summarize documents</button>
+
+              <button
+                class="suggestion"
+                data-question="What are the important rules or requirements in the documents?"
+                type="button"
+              >Find requirements</button>
+
+              <button
+                class="suggestion"
+                data-question="List the main dates and deadlines mentioned in the documents."
+                type="button"
+              >Find dates</button>
+
+            </div>
+
+            <!-- Chat conversation -->
+            <div
+              class="messages"
+              id="messages"
+              role="log"
+              aria-live="polite"
+              aria-relevant="additions text"
+              aria-label="Chat conversation"
+            >
+
+              <div class="welcome-message" id="welcomeMessage">
+                <span aria-hidden="true">SQ</span>
+                <b>Ask a question to get started</b>
+                <p>
+                  Upload and index a document, then ask a question about
+                  its contents.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Retrieved source references -->
+            <div
+              class="chat-sources"
+              id="chatSources"
+              aria-label="Sources used in the answer"
+              hidden
+            >
+              <div class="panel-subhead">
+                <b>Retrieved sources</b>
+              </div>
+
+              <div id="chatSourceList"></div>
+            </div>
+
+            <!-- Chat input -->
+            <form class="chat-form" id="chatForm">
+
+              <label class="visually-hidden" for="questionInput">
+                Your question
+              </label>
+
+              <textarea
+                id="questionInput"
+                name="question"
+                rows="2"
+                placeholder="Ask something about your documentsâ€¦"
+                required
+                maxlength="10000"
+                aria-describedby="chatInputHelp"
+              ></textarea>
+
+              <button
+                class="send"
+                id="sendButton"
+                type="submit"
+                aria-label="Send question"
+                title="Send question"
+              >Q</button>
+
+            </form>
+
+            <p class="tiny" id="chatInputHelp">
+              Answers depend on retrieved content and the configured local model.
+              Verify important information against the original document.
+            </p>
+
+            <p
+              class="form-message"
+              id="chatMessage"
+              role="status"
+              aria-live="polite"
+            ></p>
+
+          </article>
+
+          <!-- -------------------------------------------------
+               DIRECT SEMANTIC DOCUMENT SEARCH
+               ------------------------------------------------- -->
+          <article class="panel" id="semanticSearchPanel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Semantic document search</h3>
+                <p>
+                  Find relevant indexed passages by meaning rather than
+                  relying only on exact keyword matches.
+                </p>
+              </div>
+
+              <span class="panel-icon" aria-hidden="true">S</span>
+            </div>
+
+            <form id="searchForm" class="form-stack">
+
+              <div class="field">
+                <label for="searchQuery">What do you want to find?</label>
+
+                <textarea
+                  id="searchQuery"
+                  name="query"
+                  rows="3"
+                  placeholder="Example: What is the company's leave policy?"
+                  required
+                  maxlength="5000"
+                ></textarea>
+              </div>
+
+              <div class="field">
+                <label for="searchTopK">Number of matching passages</label>
+
+                <select id="searchTopK" name="top_k">
+                  <option value="1">1 result</option>
+                  <option value="2">2 results</option>
+                  <option value="4" selected>4 results</option>
+                  <option value="6">6 results</option>
+                  <option value="10">10 results</option>
+                </select>
+              </div>
+
+              <button
+                class="btn primary full"
+                id="searchButton"
+                type="submit"
+              >Search documents</button>
+
+              <p
+                class="form-message"
+                id="searchMessage"
+                role="status"
+                aria-live="polite"
+              ></p>
+
+            </form>
+
+            <div
+              class="search-results"
+              id="searchResults"
+              aria-live="polite"
+              aria-label="Semantic search results"
+            >
+              <p class="tiny">
+                Search results will appear here after documents have
+                been uploaded and indexed.
+              </p>
+            </div>
+
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           TEXT GENERATION
+           ===================================================== -->
+      <section
+        class="section"
+        id="text-generation"
+        aria-labelledby="textGenerationTitle"
+      >
+
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">CONTENT CREATION</p>
+            <h2 id="textGenerationTitle">Text generation</h2>
+            <p>
+              Create articles, course content, summaries, descriptions,
+              learning objectives and explanations using your configured
+              local language model.
+            </p>
+          </div>
+
+          <small>02 / GENERATE</small>
+        </div>
+
+        <div class="columns equal">
+
+          <!-- Text generation controls -->
+          <article class="panel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Generation settings</h3>
+                <p>Choose the content and output preferences.</p>
+              </div>
+
+              <span class="panel-icon" aria-hidden="true">T</span>
+            </div>
+
+            <form id="generationForm" class="form-stack">
+
+              <div class="field">
+                <label for="generationPrompt">
+                  What would you like to create?
+                </label>
+
+                <textarea
+                  id="generationPrompt"
+                  name="prompt"
+                  rows="5"
+                  placeholder="Explain RAG for a beginner and include a real-world example."
+                  required
+                  maxlength="20000"
+                ></textarea>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label for="generationLanguage">Language</label>
+
+                  <select id="generationLanguage" name="language">
+                    <option>English</option>
+                    <option>Hindi</option>
+                    <option>Hinglish</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="generationTone">Tone</label>
+
+                  <select id="generationTone" name="tone">
+                    <option value="professional">Professional</option>
+                    <option value="friendly">Friendly</option>
+                    <option value="academic">Academic</option>
+                    <option value="simple">Simple</option>
+                    <option value="persuasive">Persuasive</option>
+                    <option value="creative">Creative</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="generationLength">Length</label>
+
+                  <select id="generationLength" name="length">
+                    <option value="short">Short</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="long">Long</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="generationComplexity">Complexity</label>
+
+                  <select id="generationComplexity" name="complexity">
+                    <option value="simple">Simple</option>
+                    <option value="intermediate" selected>Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+
+                <div class="field wide">
+                  <label for="generationFormat">Output format</label>
+
+                  <select id="generationFormat" name="output_format">
+                    <option value="text">Plain text</option>
+                    <option value="markdown">Markdown</option>
+                    <option value="json">JSON</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <button
+                class="btn primary full"
+                id="generateButton"
+                type="submit"
+              >T &nbsp; Generate content</button>
+
+              <p
+                class="form-message"
+                id="generationMessage"
+                role="status"
+                aria-live="polite"
+              ></p>
+
+            </form>
+          </article>
+
+          <!-- Text generation output -->
+          <article
+            class="panel result-panel"
+            id="generationResultSection"
+            hidden
+          >
+
+            <div class="panel-head">
+              <div>
+                <h3>Generated content</h3>
+                <p id="generationModel">Local model output</p>
+              </div>
+
+              <button
+                class="text-button"
+                id="copyGenerationButton"
+                type="button"
+              >Copy output</button>
+            </div>
+
+            <pre
+              class="result-output"
+              id="generationResult"
+              tabindex="0"
+            ></pre>
+
+            <div class="result-footer">
+              <span class="tiny" id="generationOutputInfo">
+                Generated output
+              </span>
+            </div>
+
+          </article>
+
+          <!-- Text generation empty state -->
+          <article
+            class="panel result-placeholder"
+            id="generationPlaceholder"
+          >
+
+            <div class="placeholder-art" aria-hidden="true">Text</div>
+
+            <h3>Your content will appear here</h3>
+
+            <p>
+              Enter a prompt, choose your preferences, and generate.
+              Copy the result when it is ready.
+            </p>
+
+            <div class="tags">
+              <span>Summaries</span>
+              <span>Course content</span>
+              <span>Markdown</span>
+              <span>JSON</span>
+            </div>
+
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           QUESTION BUILDER
+           ===================================================== -->
+      <section
+        class="section"
+        id="question-generation"
+        aria-labelledby="questionGenerationTitle"
+      >
+
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">LEARNING CONTENT</p>
+            <h2 id="questionGenerationTitle">Question builder</h2>
+            <p>
+              Create practice questions from a topic, lesson, notes
+              or pasted learning content.
+            </p>
+          </div>
+
+          <small>03 / LEARN</small>
+        </div>
+
+        <div class="columns">
+
+          <!-- Question generation controls -->
+          <article class="panel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Question settings</h3>
+                <p>Choose question type, count, difficulty and language.</p>
+              </div>
+
+              <span class="panel-icon" aria-hidden="true">Q</span>
+            </div>
+
+            <form id="questionForm" class="form-stack">
+
+              <div class="field">
+                <label for="questionSource">Topic or source content</label>
+
+                <textarea
+                  id="questionSource"
+                  name="source_text"
+                  rows="4"
+                  placeholder="Paste a lesson, notes, or enter a topicâ€¦"
+                  required
+                  maxlength="20000"
+                ></textarea>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label for="questionType">Question type</label>
+
+                  <select id="questionType" name="question_type">
+                    <option value="MCQ">Multiple choice (MCQ)</option>
+                    <option value="multiple-select">Multiple select</option>
+                    <option value="true-false">True / False</option>
+                    <option value="fill-in-the-blanks">Fill in the blanks</option>
+                    <option value="short-answer">Short answer</option>
+                    <option value="long-answer">Long answer</option>
+                    <option value="scenario-based">Scenario-based</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="questionCount">Number of questions</label>
+
+                  <select id="questionCount" name="count">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="questionDifficulty">Difficulty</label>
+
+                  <select id="questionDifficulty" name="difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Mixed">Mixed</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="questionLanguage">Language</label>
+
+                  <select id="questionLanguage" name="language">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Hinglish">Hinglish</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <label class="check-row">
+                <input
+                  id="includeAnswers"
+                  name="include_answers"
+                  type="checkbox"
+                  checked
+                >
+                <span>Include answer key and explanations</span>
+              </label>
+
+              <label class="check-row">
+                <input
+                  id="includeTopics"
+                  name="include_topics"
+                  type="checkbox"
+                  checked
+                >
+                <span>Include topic classification</span>
+              </label>
+
+              <button
+                class="btn primary full"
+                id="questionGenerateButton"
+                type="submit"
+              >Generate questions</button>
+
+              <p
+                class="form-message"
+                id="questionMessage"
+                role="status"
+                aria-live="polite"
+              ></p>
+
+              <p class="tiny">
+                Uses the dedicated Question Generation API when implemented
+                by the backend. Maximum 10 questions per request in this UI.
+              </p>
+
+            </form>
+          </article>
+
+          <!-- Question output -->
+          <article class="panel" id="questionResultPanel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Question set</h3>
+                <p>Generated questions and answer key</p>
+              </div>
+
+              <button
+                class="text-button"
+                id="copyQuestionsButton"
+                type="button"
+              >Copy output</button>
+            </div>
+
+            <pre
+              class="result-output question-output"
+              id="questionResult"
+              tabindex="0"
+            >Your generated questions will appear here.</pre>
+
+            <p class="tiny" id="questionOutputInfo">
+              Generated output will be displayed here.
+            </p>
+
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           IMAGE AND ILLUSTRATION STUDIO
+           ===================================================== -->
+      <section
+        class="section"
+        id="image-generation"
+        aria-labelledby="imageGenerationTitle"
+      >
+
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">VISUAL CONTENT</p>
+            <h2 id="imageGenerationTitle">Image &amp; illustration studio</h2>
+            <p>
+              Prepare prompts and configuration for educational visuals,
+              diagrams and creative images.
+            </p>
+          </div>
+
+          <small>04 / CREATE</small>
+        </div>
+
+        <div class="columns">
+
+          <!-- Image configuration -->
+          <article class="panel">
+
+            <div class="panel-head">
+              <div>
+                <h3>Image configuration</h3>
+                <p>Settings prepared for a self-hosted image worker.</p>
+              </div>
+
+              <span class="panel-icon" aria-hidden="true">IMG</span>
+            </div>
+
+            <form id="imageForm" class="form-stack">
+
+              <div class="field">
+                <label for="imagePrompt">Describe the image</label>
+
+                <textarea
+                  id="imagePrompt"
+                  name="prompt"
+                  rows="4"
+                  placeholder="An educational illustration explaining the water cycleâ€¦"
+                  required
+                  maxlength="10000"
+                ></textarea>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label for="imageKind">Output type</label>
+
+                  <select id="imageKind" name="kind">
+                    <option value="image">Image</option>
+                    <option value="educational-illustration">Educational illustration</option>
+                    <option value="diagram">Diagram-style visual</option>
+                    <option value="flat-vector">Flat vector-like artwork</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="imageSize">Dimensions</label>
+
+                  <select id="imageSize" name="size">
+  <option value="512x512" selected>512 x 512</option>
+  <option value="512x384">512 x 384</option>
+  <option value="384x512">384 x 512</option>
+</select>
+                </div>
+
+                <div class="field">
+                  <label for="imageFormat">File format</label>
+
+                  <select id="imageFormat" name="format">
+  <option value="png" selected>PNG</option>
+</select>
+                </div>
+
+                <div class="field">
+                  <label for="imageStyle">Style</label>
+
+                  <select id="imageStyle" name="style">
+                    <option value="clean">Clean / minimal</option>
+                    <option value="flat">Flat illustration</option>
+                    <option value="realistic">Realistic</option>
+                    <option value="diagram">Diagram</option>
+                    <option value="watercolor">Watercolor</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <button
+                class="btn disabled full"
+                id="imageGenerateButton"
+                type="submit"
+                disabled
+                aria-describedby="imageMessage"
+              >Generate Image</button>
+
+              <p
+                class="form-message warning"
+                id="imageMessage"
+                role="status"
+                aria-live="polite"
+              >
+                The configuration UI is ready. A compatible self-hosted
+                image model, backend API, worker and suitable compute
+                resources are required before generation can run.
+              </p>
+
+            </form>
+          </article>
+
+          <!-- Image preview -->
+          <article class="panel image-preview">
+
+            <div class="placeholder-art" aria-hidden="true">IMG</div>
+
+            <h3>Image preview</h3>
+
+            <p>
+              Generated images will appear here after an image worker
+              and backend endpoint have been integrated.
+            </p>
+
+            <span class="pill-muted">
+              Validate model compatibility, license and GPU requirements
+            </span>
+
+            <div
+              class="image-output"
+              id="imageResult"
+              aria-live="polite"
+              hidden
+            ></div>
+
+          </article>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           DEVELOPMENT AND CAPACITY NOTICE
+           ===================================================== -->
+      <section class="notice" aria-labelledby="developmentNoticeTitle">
+
+        <b id="developmentNoticeTitle">
+           &nbsp; Development status and capacity note
+        </b>
+
+        <p>
+          This is a development interface. Authentication, authorization,
+          tenant isolation, background job tracking, rate limits, monitoring,
+          logging, backup policies and secure file handling must be enforced
+          by the backend before production deployment.
+        </p>
+
+        <p>
+          The target of 300 concurrent users requires realistic load testing.
+          It does not mean that 300 simultaneous text generations or image
+          generations are supported. Actual capacity depends on the model,
+          hardware, request lengths, queueing and measured performance.
+        </p>
+
+        <p>
+          Keep confidential company documents and model inference within the
+          approved infrastructure. Do not expose the local development server
+          publicly without the necessary security controls.
+        </p>
+
+      </section>
+
+      <!-- =====================================================
+           FOOTER
+           ===================================================== -->
+      <footer>
+        <span>Self-Hosted AI Platform</span>
+        <span>Local-first development Â· FastAPI + Ollama</span>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<!-- Accessible announcement area for application messages -->
+<div
+  class="visually-hidden"
+  id="globalAnnouncement"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+></div>
+
+</body>
+</html>
+
+
