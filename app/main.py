@@ -173,6 +173,15 @@ app.openapi = custom_openapi
 
 
 # Browser frontend
+@app.get("/favicon.ico", include_in_schema=False)
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon():
+    return FileResponse(
+        FRONTEND_DIR / "favicon.svg",
+        media_type="image/svg+xml",
+    )
+
+
 @app.get("/", include_in_schema=False)
 def root():
     index_file = FRONTEND_DIR / "index.html"
@@ -211,4 +220,3 @@ def api_info():
         "question_generation": "/api/v1/questions/generate",
         "image_generation": "/api/v1/images/generate",
     }
-
